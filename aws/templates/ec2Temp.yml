@@ -44,7 +44,7 @@ Properties:
 #    - SsmAssociation
 #  SubnetId: String
 #  Tags: 
-    - Tag
+#    - Tag
 #  Tenancy: String
 #  UserData: String
 #  Volumes: 
