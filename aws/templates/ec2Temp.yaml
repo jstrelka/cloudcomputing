@@ -1,4 +1,7 @@
-Type: AWS::EC2::Instance
+AWSTemplateFormatVersion:
+  Resources:
+    Ec2Instance:
+      Type: AWS::EC2::Instance
 Properties: 
 #  AdditionalInfo: String
   Affinity: default
