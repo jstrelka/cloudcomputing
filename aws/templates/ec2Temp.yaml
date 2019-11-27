@@ -1,7 +1,7 @@
-AWSTemplateFormatVersion:
-  Resources:
-    Ec2Instance:
-      Type: AWS::EC2::Instance
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SubnetID:
+    Type: AWS::EC2::Instance
 Properties: 
 #  AdditionalInfo: String
   Affinity: default
