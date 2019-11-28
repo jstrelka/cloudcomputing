@@ -2,7 +2,7 @@
 
 - name: "remove elasticsearch from the servers"
   hosts:
-    - AmazonLinux
+    - amazonlinux
   
   tasks:
 

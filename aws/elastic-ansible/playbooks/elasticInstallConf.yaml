@@ -1,5 +1,9 @@
+---
 # Install and configure elastic on Amazon Linux EC2 cs_instance
 
-- name: Install Elastic
-  hosts: # Place Hosts
+- name: "install elasticsearch"
+  hosts: 
+    - amazonlinux
   become: true
+  roles:
+    - elasticsearch

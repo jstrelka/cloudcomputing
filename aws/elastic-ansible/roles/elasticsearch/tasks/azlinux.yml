@@ -1,0 +1,41 @@
+---
+# roles/elasticsearch/azlinux.yml
+
+- name: "download elasticsearch"
+  get_url:
+    url:  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2.rpm
+    dest: /tmp/elasticsearch-7.4.2.rpm
+  tags:
+    - elasticsearch
+    - installation
+
+- name: "install elasticsearch"
+  yum:
+    name: /tmp/elasticsearch-7.4.2.rpm
+    state: present
+  become: true
+  tags:
+    - elasticsearch
+    - installation
+
+- name: "configure elasticsearch"
+  template:
+    src:  elasticsearch.yaml.j2
+    dest: /etc/elasticsearch/elasticsearch.yaml
+  become: true
+  notify:
+    - restart elasticsearch
+  tags:
+    - elasticsearch
+    - installation
+
+- name: "configure elasticsearch jvm options"
+  template:
+    src: jvm.options.j2
+    dest: /etc/elasticsearch/jvm.options
+  become: true
+  notify:
+    - restart elasticsearch
+  tags:
+    - elasticsearch
+    - installation
