@@ -1,0 +1,3 @@
+# sample host file for plays (create your own named hosts and make sure it is part of gitignore file)
+[amazonlinux]
+127.0.0.1
