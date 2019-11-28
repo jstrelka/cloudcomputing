@@ -3,7 +3,7 @@
 
 - name: "download elasticsearch"
   get_url:
-    url:  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2.rpm
+    url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-x86_64.rpm
     dest: /tmp/elasticsearch-7.4.2.rpm
   tags:
     - elasticsearch
@@ -17,6 +17,7 @@
   tags:
     - elasticsearch
     - installation
+    - elasticinstall
 
 - name: "configure elasticsearch"
   template:
@@ -28,6 +29,8 @@
   tags:
     - elasticsearch
     - installation
+    - finalsteps
+    - elasticconfigure
 
 #- name: "configure elasticsearch jvm options"
 #  template:

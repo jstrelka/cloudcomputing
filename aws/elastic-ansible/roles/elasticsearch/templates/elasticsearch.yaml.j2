@@ -1,13 +1,7 @@
 # roles/elasticsearch/templates/elasticsearch.yaml.j2
 
 node.name: {{ ansible_hostname }}
-cluster.name: {{ elastictester }}
-
-node.data: {{ node_master }}
-node.master: {{ node_master }}
-
-# machine learning
-node.ml: {{ node_ml }}
+cluster.name: elastictester
 
 # to join cluster nodes need to konw hostname/IP of some nodes
 discover.seed_hosts:
