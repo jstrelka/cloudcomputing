@@ -29,13 +29,13 @@
     - elasticsearch
     - installation
 
-- name: "configure elasticsearch jvm options"
-  template:
-    src: jvm.options.j2
-    dest: /etc/elasticsearch/jvm.options
-  become: true
-  notify:
-    - restart elasticsearch
-  tags:
-    - elasticsearch
-    - installation
+#- name: "configure elasticsearch jvm options"
+#  template:
+#    src: jvm.options.j2
+#    dest: /etc/elasticsearch/jvm.options
+#  become: true
+#  notify:
+#    - restart elasticsearch
+#  tags:
+#    - elasticsearch
+#    - installation
