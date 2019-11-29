@@ -1,5 +1,5 @@
 ---
-# roles/elasticsearch/azlinux.yml
+# roles/elasticsearch/main.yml
 
 - name: "check for elasticsearch rpm file"
   stat:
@@ -29,7 +29,7 @@
   yum:
     name: /tmp/elasticsearch-7.4.2.rpm
     state: present
-  when: state_result.stat.exists == True
+  when: stat_result.stat.exists == True
   become: true
   tags:
     - elastic

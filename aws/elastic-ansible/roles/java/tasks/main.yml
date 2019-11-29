@@ -1,5 +1,5 @@
 ---
-# roles/java/tasks/azlinux.yaml
+# roles/java/tasks/main.yml
 
 - name: "check for jre rpm file"
   stat:
