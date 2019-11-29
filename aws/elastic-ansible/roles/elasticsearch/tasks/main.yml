@@ -20,7 +20,7 @@
 
 - name: "check for elasticsearch install directory"
   stat:
-    path: /etc/elasticsearch/elasticsearch.yaml
+    path: /etc/elasticsearch/elasticsearch.yml
   register: stat_result
   tags:
     - elastic
@@ -38,7 +38,7 @@
 - name: "configure elasticsearch"
   template:
     src:  elasticsearch.yaml.j2
-    dest: /etc/elasticsearch/elasticsearch.yaml
+    dest: /etc/elasticsearch/elasticsearch.yml
   become: true
   notify:
     - restart elasticsearch
