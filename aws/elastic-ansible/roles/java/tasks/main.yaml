@@ -5,6 +5,8 @@
   stat:
     path: /tmp/jre-8u231-linux-x64.rpm
   register: stat_result
+  tags:
+    - java
 
 - name: "download jre rpm file, if not exists"
   get_url:
@@ -20,6 +22,8 @@
 - name: "check if jre is installed"
   shell: java -version |& awk -F'"' '{print $2}'
   register: java_version
+  tags:
+    - java
 
 - name: "install jre, if jre not already installed"
   yum:
