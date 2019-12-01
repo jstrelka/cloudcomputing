@@ -1,0 +1,9 @@
+---
+# Ansible play to install/configure logstash
+- hosts: logstashEC2
+  become: true
+  tasks:
+  - import_role:
+      name: logstash
+    tags:
+    - logstash
