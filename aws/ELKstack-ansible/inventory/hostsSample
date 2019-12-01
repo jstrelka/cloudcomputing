@@ -1,4 +1,5 @@
 # sample host file for plays (create your own named hosts and make sure it is part of gitignore file)
+
 [elasticEC2]
 ec2<NAT-IP-HERE>.<REGION>.compute.amazonaws.com
 
