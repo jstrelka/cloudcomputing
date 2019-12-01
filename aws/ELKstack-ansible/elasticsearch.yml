@@ -1,16 +1,9 @@
 ---
-# Ansible Playbook install elasticsearch
-- hosts: amazonlinux
+# Ansible play to install elasticsearch
+- hosts: elasticEC2
   become: true
   tasks:
   - import_role:
       name: elasticsearch
     tags:
-    - elasticsearch
-    - installation
-
-#  roles:
-#    - role: elasticsearch
-#      tags:
-#        - elasticsearch
-#        - installation
+    - elastic
