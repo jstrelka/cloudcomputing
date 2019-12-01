@@ -1,9 +1,0 @@
----
-# Install and configure elastic on Amazon Linux EC2 cs_instance
-
-- name: "install elasticsearch"
-  hosts: 
-    - amazonlinux
-  become: true
-  roles:
-    - elasticsearch

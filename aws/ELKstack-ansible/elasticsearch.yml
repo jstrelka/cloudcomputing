@@ -1,0 +1,9 @@
+---
+# Ansible play to install elasticsearch
+- hosts: elasticEC2
+  become: true
+  tasks:
+  - import_role:
+      name: elasticsearch
+    tags:
+    - elastic

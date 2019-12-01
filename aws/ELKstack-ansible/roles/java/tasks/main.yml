@@ -7,6 +7,7 @@
   register: stat_result
   tags:
     - java
+    - jdownload
 
 - name: "download jre rpm file, if not exists"
   get_url:
@@ -17,13 +18,14 @@
   when: stat_result.stat.exists == False
   tags:
     - java
-    - download
+    - jdownload
 
 - name: "check if jre is installed"
   shell: java -version |& awk -F'"' '{print $2}'
   register: java_version
   tags:
     - java
+    - jinstall
 
 - name: "install jre, if jre not already installed"
   yum:
@@ -33,4 +35,4 @@
   become: true
   tags:
     - java
-    - installation
+    - jinstall

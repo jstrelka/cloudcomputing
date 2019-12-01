@@ -7,6 +7,7 @@
   register: stat_result
   tags:
     - elastic
+    - edownload
 
 - name: "download elasticsearch"
   get_url:
@@ -16,7 +17,7 @@
   become: true
   tags:
     - elastic
-    - download
+    - edownload
 
 - name: "check for elasticsearch install directory"
   stat:
@@ -24,16 +25,17 @@
   register: stat_result
   tags:
     - elastic
+    - einstall
 
 - name: "install elasticsearch"
   yum:
     name: /tmp/elasticsearch-7.4.2.rpm
     state: present
-  when: stat_result.stat.exists == True
+  when: stat_result.stat.exists == False
   become: true
   tags:
     - elastic
-    - installation
+    - einstall
 
 - name: "configure elasticsearch"
   template:
@@ -44,7 +46,7 @@
     - restart elasticsearch
   tags:
     - elastic
-    - configure
+    - econfigure
 
 - name: "configure elasticsearch jvm options"
   template:
