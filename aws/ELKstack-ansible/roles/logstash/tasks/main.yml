@@ -1,3 +1,39 @@
 ---
 #roles/logstash/main.yml
 
+- name: "check for logstash rpm file"
+  stat:
+    path: /tmp/logstash-7.4.2.rpm
+  register: stat_result
+  tags:
+    - logstash
+    - ldownload
+
+- name: "download logstash rpm"
+  get_url:
+    url: https://artifacts.elastic.co/downloads/logstash/logstash-7.4.2.rpm
+    dest: /tmp/logstash-7.4.2.rpm
+  when: stat_result.stat.exists == False
+  become: true
+  tags:
+    - logstash
+    - ldownload
+
+- name: "check for logstash install directory"
+  stat:
+    path: /etc/logstash/logstash.yml
+  register: stat_result
+  tags:
+    - logstash
+    - linstall
+
+- name: "install logstash"
+  yum:
+    name: /tmp/logstash-7.4.2.rpm
+    state: present
+  when: stat_result.stat.exists == False
+  become: true
+  tags:
+    - logstash
+    - linstall
+
