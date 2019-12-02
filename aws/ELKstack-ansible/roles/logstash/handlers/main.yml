@@ -6,3 +6,7 @@
     name: logstash
     state: restarted
   become: true
+
+- name: "logstash startup script"
+  shell: ./usr/share/logstash/bin/system-install
+  become: true

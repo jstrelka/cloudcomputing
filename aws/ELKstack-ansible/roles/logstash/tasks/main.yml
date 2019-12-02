@@ -33,6 +33,8 @@
     state: present
   when: stat_result.stat.exists == False
   become: true
+  notify:
+    - logstash startup script
   tags:
     - logstash
     - linstall
