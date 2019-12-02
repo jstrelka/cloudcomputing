@@ -37,3 +37,37 @@
     - logstash
     - linstall
 
+- name: "configure logstash"
+  template:
+    src:  logstash.yml.j2
+    dest: /etc/logstash/logstash.yml
+  become: true
+  notify:
+    - restart logstash
+  tags:
+    - logstash
+    - lconfigure
+
+- name: "configure logstash pipelines"
+  template:
+    src:  pipelines.yml.j2
+    dest: /etc/logstash/pipelines.yml
+  become: true
+  notify:
+    - restart logstash
+  tags:
+    - logstash
+    - lconfigure
+
+- name: "configure logstash jvm options"
+  template:
+    src: jvm.options.j2
+    dest: /etc/logstash/jvm.options
+  become: true
+  notify:
+    - restart logstash
+  tags:
+    - logstash
+    - jvmoptions
+
+
