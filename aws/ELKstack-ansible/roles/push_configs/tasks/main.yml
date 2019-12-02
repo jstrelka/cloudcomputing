@@ -11,3 +11,14 @@
   tags:
     - logstash
     - lconfigure
+
+- name: "add filebeat configuration"
+  template:
+    src:  local-filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+  become: true
+  notify:
+    - restart filebeat
+  tags:
+    - filebeat
+    - fconfigure
