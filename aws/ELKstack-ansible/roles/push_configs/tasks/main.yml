@@ -1,0 +1,13 @@
+---
+#roles/push_configs/tasks/main.yml
+
+- name: "add logstash configuration"
+  template:
+    src:  testlocalhost.conf
+    dest: /etc/logstash/conf.d/testlocalhost.conf
+  become: true
+  notify:
+    - restart logstash
+  tags:
+    - logstash
+    - lconfigure
