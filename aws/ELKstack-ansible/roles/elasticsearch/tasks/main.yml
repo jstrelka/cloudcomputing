@@ -9,7 +9,7 @@
     - elastic
     - edownload
 
-- name: "download elasticsearch"
+- name: "download elasticsearch rpm"
   get_url:
     url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-x86_64.rpm
     dest: /tmp/elasticsearch-7.4.2.rpm

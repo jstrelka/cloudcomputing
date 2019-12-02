@@ -1,0 +1,8 @@
+# Ansible play to install/configure filebeat
+- hosts: filebeatEC2
+  become: true
+  tasks:
+  - import_role:
+      name: filebeat
+    tags:
+    - filebeat

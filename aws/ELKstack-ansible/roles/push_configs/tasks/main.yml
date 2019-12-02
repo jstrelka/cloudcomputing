@@ -1,0 +1,24 @@
+---
+#roles/push_configs/tasks/main.yml
+
+- name: "add logstash configuration"
+  template:
+    src:  testlocalhost.conf
+    dest: /etc/logstash/conf.d/testlocalhost.conf
+  become: true
+  notify:
+    - restart logstash
+  tags:
+    - logstash
+    - lconfigure
+
+- name: "add filebeat configuration"
+  template:
+    src:  local-filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+  become: true
+  notify:
+    - restart filebeat
+  tags:
+    - filebeat
+    - fconfigure

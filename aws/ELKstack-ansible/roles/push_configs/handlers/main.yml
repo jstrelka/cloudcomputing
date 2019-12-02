@@ -1,0 +1,19 @@
+---
+
+- name: "restart elasticsearch"
+  service:
+    name: elasticsearch
+    state: restarted
+  become: true
+
+- name: "restart logstash"
+  service:
+    name: logstash
+    state: restarted
+  become: true
+
+- name: "restart filebeat"
+  service:
+    name: filebeat
+    state: restarted
+  become: true
