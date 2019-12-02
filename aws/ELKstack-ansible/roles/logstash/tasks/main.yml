@@ -37,13 +37,6 @@
     - logstash
     - linstall
 
-- name: "logstash startup script"
-  shell: ./usr/share/logstash/bin/system-install
-  become: true
-  tags:
-    - logstash
-    - linstall
-
 - name: "configure logstash"
   template:
     src:  logstash.yml.j2
@@ -77,4 +70,12 @@
     - logstash
     - jvmoptions
 
-
+- name: "logstash startup script"
+  shell:
+    chdir: /usr/share/logstash/bin 
+    cmd: ./system-install
+  when: stat_result.stat.exists == False
+  become: true
+  tags:
+    - logstash
+    - linstall
