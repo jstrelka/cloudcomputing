@@ -1,0 +1,20 @@
+---
+# roles/filebeat/task/main.yml
+
+- name: "check for filebeat rpm file"
+  stat:
+    path: /tmp/filebeat-7.4.2.rpm
+  register: stat_result
+  tags:
+    - filebeat
+    - fdownload
+
+- name: "download filebeat rpm"
+  get_url:
+    url: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-x86_64.rpm
+    dest: /tmp/filebeat-7.4.2.rpm
+  when: stat_result.stat.exists == False
+  become: true
+  tags:
+    - filebeat
+    - fdownload
