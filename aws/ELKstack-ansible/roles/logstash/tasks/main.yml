@@ -33,8 +33,13 @@
     state: present
   when: stat_result.stat.exists == False
   become: true
-  notify:
-    - logstash startup script
+  tags:
+    - logstash
+    - linstall
+
+- name: "logstash startup script"
+  shell: ./usr/share/logstash/bin/system-install
+  become: true
   tags:
     - logstash
     - linstall
