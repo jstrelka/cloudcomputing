@@ -6,3 +6,19 @@ ec2<NAT-IP-HERE>.<REGION>.compute.amazonaws.com
 [elasticEC2:vars]
 ansible_user=<USER HERE>
 ansible_ssh_private_key_file=<PATH/TO/KEY/FILE>
+
+
+[logstashEC2]
+ec2<NAT-IP-HERE>.<REGION>.compute.amazonaws.com
+
+[logstashEC2:vars]
+ansible_user=<USER HERE>
+ansible_ssh_private_key_file=<PATH/TO/KEY/FILE>
+
+
+[filebeatEC2]
+ec2<NAT-IP-HERE>.<REGION>.compute.amazonaws.com
+
+[filebeatEC2:vars]
+ansible_user=<USER HERE>
+ansible_ssh_private_key_file=<PATH/TO/KEY/FILE>

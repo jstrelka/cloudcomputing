@@ -1,0 +1,9 @@
+---
+# Ansible play to push configs to EC2 servers
+- hosts: [elasticEC2,logstashEC2,filebeatEC2]
+  become: true
+  tasks:
+  - import_role:
+      name: push_configs
+    tags:
+    - ELKStack
