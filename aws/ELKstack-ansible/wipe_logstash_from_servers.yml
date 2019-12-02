@@ -1,0 +1,23 @@
+---
+
+- name: "remove logstash from the servers"
+  hosts:
+    - logstashEC2
+  
+  tasks:
+
+  - name: "remove the logstash package"
+    yum:
+      name: "{{ packages }}"
+      state: absent
+    vars:
+      packages:
+        - logstash
+
+  - name: "remove any logstash artifacts of the previous install"
+    file:
+      state: absent
+      path: "{{ item }}"
+    with_items:
+      - "/opt/logstash"
+      - "/etc/logstash"

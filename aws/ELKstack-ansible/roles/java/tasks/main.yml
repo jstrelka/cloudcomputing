@@ -20,18 +20,17 @@
     - java
     - jdownload
 
-- name: "check if jre is installed"
-  shell: java -version |& awk -F'"' '{print $2}'
-  register: java_version
-  tags:
-    - java
-    - jinstall
+- name: "check if java is installed"
+  shell: java -version
+  become: True
+  register: java_result
+  ignore_errors: True
 
 - name: "install jre, if jre not already installed"
   yum:
     name: /tmp/jre-8u231-linux-x64.rpm
     state: present
-  when: java_version < 1
+  when: java_result is failed
   become: true
   tags:
     - java
