@@ -20,7 +20,7 @@
 #        local_action: 
 #          module: ec2_group
 #          name: "{{ security_group }}"
-#          description: Security Group for Crunchify's EC2 Servers
+#          description: Security Group for EC2 Servers
 #          region: "{{ region }}"
 #          rules:
 #            - proto: tcp
