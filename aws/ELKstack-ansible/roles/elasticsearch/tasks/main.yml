@@ -13,6 +13,8 @@
   get_url:
     url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-x86_64.rpm
     dest: /tmp/elasticsearch-7.4.2.rpm
+#  register: download_stat
+#  until: download_stat is not failed
   when: stat_result.stat.exists == False
   become: true
   tags:
