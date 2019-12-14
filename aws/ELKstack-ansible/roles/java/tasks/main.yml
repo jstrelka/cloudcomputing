@@ -1,40 +1,59 @@
 ---
 # roles/java/tasks/main.yml
 
-- name: "check for jre rpm file"
-  stat:
-    path: /tmp/jre-8u231-linux-x64.rpm
-  register: stat_result
-  tags:
-    - java
-    - jdownload
+#- name: "check for jre rpm file"
+#  stat:
+#    path: /tmp/jre-8u231-linux-x64.rpm
+#  register: stat_result
+#  tags:
+#    - java
+#    - jdownload
 
-- name: "download jre rpm file, if not exists"
-  get_url:
-    url: https://javadl.oracle.com/webapps/download/AutoDL?BundleId=240717_5b13a193868b4bf28bcb45c792fce896
-    headers: "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"
-    dest: /tmp/jre-8u231-linux-x64.rpm
-    force: no
-  when: stat_result.stat.exists == False
-  tags:
-    - java
-    - jdownload
+#- name: "download jre rpm file, if not exists"
+#  get_url:
+#    url: https://javadl.oracle.com/webapps/download/AutoDL?BundleId=240717_5b13a193868b4bf28bcb45c792fce896
+#    headers: "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"
+#    dest: /tmp/jre-8u231-linux-x64.rpm
+#    force: no
+#  when: stat_result.stat.exists == False
+#  tags:
+#    - java
+#    - jdownload
 
 - name: "check if java is installed"
   shell: java -version
   become: True
   register: java_result
   ignore_errors: True
-
-- name: "install jre, if jre not already installed"
-  yum:
-    name: /tmp/jre-8u231-linux-x64.rpm
-    state: present
-#  register: java_install
-#  until: java_install is not failed
-#  retries: 5
-  when: java_result is failed
-  become: true
   tags:
     - java
-    - jinstall
+
+- name: "update apt package manager"
+  shell: apt-get update
+  become: true
+  when: java_result is failed
+  tags:
+    - java
+    - update
+
+- name: "upgrade apt package manager"
+  shell: apt-get upgrade -y
+  become: true
+  when: java_result is failed
+  tags:
+    - java
+    - update
+
+- name: "install default-jre"
+  shell: sudo apt-get install -y default-jre
+  become: true
+  when: java_result is failed
+  tags:
+    - java
+
+- name: "install default-jdk"
+  shell: sudo apt-get install -y default-jdk
+  become: true
+  when: java_result is failed
+  tags:
+    - java

@@ -1,43 +1,25 @@
 ---
 # roles/elasticsearch/main.yml
 
-- name: "check for elasticsearch rpm file"
-  stat:
-    path: /tmp/elasticsearch-7.4.2.rpm
-  register: stat_result
+- name: "check if elasticsearch is installed"
+  shell: elasticsearch --version
+  become: True
+  register: elastic_result
+  ignore_errors: True
   tags:
     - elastic
-    - edownload
 
-- name: "download elasticsearch rpm"
-  get_url:
-    url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-x86_64.rpm
-    dest: /tmp/elasticsearch-7.4.2.rpm
-#  register: download_stat
-#  until: download_stat is not failed
-  when: stat_result.stat.exists == False
+- name: "dowload and install elasticsearch"
+  shell: |
+    cd /tmp 
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb.sha512
+    shasum -a 512 -c elasticsearch-7.5.0-amd64.deb.sha512  
+    sudo dpkg -i elasticsearch-7.5.0-amd64.deb
   become: true
+  when: elastic_result is failed
   tags:
     - elastic
-    - edownload
-
-- name: "check for elasticsearch install directory"
-  stat:
-    path: /etc/elasticsearch/elasticsearch.yml
-  register: stat_result
-  tags:
-    - elastic
-    - einstall
-
-- name: "install elasticsearch"
-  yum:
-    name: /tmp/elasticsearch-7.4.2.rpm
-    state: present
-  when: stat_result.stat.exists == False
-  become: true
-  tags:
-    - elastic
-    - einstall
 
 - name: "configure elasticsearch"
   template:
