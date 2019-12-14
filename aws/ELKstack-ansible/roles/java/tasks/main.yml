@@ -30,6 +30,9 @@
   yum:
     name: /tmp/jre-8u231-linux-x64.rpm
     state: present
+  register: java_install
+  until: java_install is not failed
+  retries: 5
   when: java_result is failed
   become: true
   tags:
