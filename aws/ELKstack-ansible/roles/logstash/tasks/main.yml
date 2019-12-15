@@ -1,41 +1,26 @@
 ---
 #roles/logstash/main.yml
 
-- name: "check for logstash rpm file"
-  stat:
-    path: /tmp/logstash-7.4.2.rpm
-  register: stat_result
-  tags:
-    - logstash
-    - ldownload
-
-- name: "download logstash rpm"
-  get_url:
-    url: https://artifacts.elastic.co/downloads/logstash/logstash-7.4.2.rpm
-    dest: /tmp/logstash-7.4.2.rpm
-  when: stat_result.stat.exists == False
+- name: "check if logstash is installed"
+  shell: logstash --version
   become: true
+  register: logstash_result
+  ignore_errors: true
   tags:
     - logstash
-    - ldownload
 
-- name: "check for logstash install directory"
-  stat:
-    path: /etc/logstash/logstash.yml
-  register: stat_result
+- name: "dowload and install logstash"
+  shell: |
+    cd /tmp 
+    wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb
+    wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.0.deb.sha512
+    shasum -a 512 -c logstash-7.5.0.deb.sha512  
+    sudo dpkg -i logstash-7.5.0.deb
+  become: true 
+  ignore_errors: true
+  when: logstash_result is failed
   tags:
     - logstash
-    - linstall
-
-- name: "install logstash"
-  yum:
-    name: /tmp/logstash-7.4.2.rpm
-    state: present
-  when: stat_result.stat.exists == False
-  become: true
-  tags:
-    - logstash
-    - linstall
 
 - name: "configure logstash"
   template:
@@ -74,7 +59,7 @@
   shell:
     chdir: /usr/share/logstash/bin 
     cmd: ./system-install
-  when: stat_result.stat.exists == False
+  when: logstash_result is failed
   become: true
   tags:
     - logstash
