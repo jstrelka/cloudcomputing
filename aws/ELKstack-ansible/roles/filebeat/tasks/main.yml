@@ -1,38 +1,35 @@
 ---
 # roles/filebeat/task/main.yml
 
-- name: "check for filebeat rpm file"
-  stat:
-    path: /tmp/filebeat-7.4.2.rpm
-  register: stat_result
+# roles/filebeat/task/main.yml
+
+- name: "check if filebeat is installed"
+  shell: elasticsearch --version
+  become: True
+  register: filebeat_result
+  ignore_errors: True
   tags:
     - filebeat
-    - fdownload
 
-- name: "download filebeat rpm"
-  get_url:
-    url: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-x86_64.rpm
-    dest: /tmp/filebeat-7.4.2.rpm
-  when: stat_result.stat.exists == False
+- name: "dowload and install filebeat"
+  shell: |
+    cd /tmp 
+    wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb
+    wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.5.0-amd64.deb.sha512
+    shasum -a 512 -c filebeat-7.5.0-amd64.deb.sha512  
+    sudo dpkg -i filebeat-7.5.0-amd64.deb
   become: true
+  when: filebeat_result is failed
   tags:
     - filebeat
-    - fdownload
 
-- name: "check for filebeat install directory"
-  stat:
-    path: /etc/filebeat/logstash.yml
-  register: stat_result
-  tags:
-    - filebeat
-    - finstall
-
-- name: "install filebeat"
-  yum:
-    name: /tmp/filebeat-7.4.2.rpm
-    state: present
-  when: stat_result.stat.exists == False
-  become: true
-  tags:
-    - filebeat
-    - finstall
+#- name: "configure filebeat"
+#  template:
+#    src:  filebeat.yml.j2
+#    dest: /etc/filebeat/filebeat.yml
+#  become: true
+#  notify:
+#    - restart filebeat
+#  tags:
+#    - filebeat
+#    - fconfigure
