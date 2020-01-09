@@ -1,14 +1,47 @@
 ---
 # roles/elasticsearch/main.yml
 
-- name: "check if elasticsearch is installed"
-  shell: elasticsearch --version
-  become: True
-  register: elastic_result
-  ignore_errors: True
-  tags:
-    - elastic
+#- name: "check if elasticsearch is installed"
+#  shell: elasticsearch --version
+#  become: True
+#  register: elastic_result
+#  ignore_errors: True
+#  tags:
+#    - elastic
 
+- name: Delete old elasticEC2 host
+  shell: gsed -i '/\[elasticEC2\]/{n;d;}' inventory/hosts
+  delegate_to: localhost
+  tags:
+    - trialrun
+
+- name: register newEC2 instance to newhost variable
+  shell: grep -A1 '\[newEC2\]' inventory/hosts | grep -v "\[newEC2\]"
+  register: newhost
+  delegate_to: localhost
+  tags:
+    - trialrun  
+
+- name: Add the newhost variable to elasticEC2 host group
+  shell: gsed -i '/\[elasticEC2\]/ a '"{{ newhost.stdout }}"'' inventory/hosts
+  delegate_to: localhost
+  tags:
+    - trialrun
+
+- name: Delete newEC2 host
+  shell: gsed -i '/\[newEC2\]/{n;d;}' inventory/hosts
+  delegate_to: localhost
+  tags:
+    - trialrun
+
+#- name: Add the newhost variable to elasticEC2 host group
+#  local_action: lineinfile 
+#                path=inventory/hosts
+#                insertafter='\[elasticEC2\]' line={{ newhost.stdout }}
+#  with_items: '{{ec2.instances}}'
+#  tags:
+#    - trialrun
+ 
 - name: "download and install elasticsearch"
   shell: |
     cd /tmp 

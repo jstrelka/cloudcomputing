@@ -3,7 +3,17 @@
 - hosts: elasticEC2
   become: true
   tasks:
-  - import_role:
-      name: elasticsearch
-    tags:
-    - elastic
+
+    - name: "check if elasticsearch is installed"
+      shell: elasticsearch --version
+      become: True
+      register: elastic_result
+      ignore_errors: True
+      tags:
+        - elastic
+
+    - import_role:
+        name: elasticsearch
+#      when: elastic_result is failed
+      tags:
+      - elastic
