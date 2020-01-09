@@ -9,7 +9,7 @@
   tags:
     - elastic
 
-- name: "dowload and install elasticsearch"
+- name: "download and install elasticsearch"
   shell: |
     cd /tmp 
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-amd64.deb
